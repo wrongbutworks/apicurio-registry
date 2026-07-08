@@ -224,10 +224,9 @@ const RegistryDetailPage: React.FC = () => {
           <Tab
             eventKey="yaml"
             title={<TabTitleText>{t("YAML")}</TabTitleText>}
+            className="apicurio-registry-yaml-tab"
           >
-            <div style={{ height: "calc(100vh - 250px)", minHeight: "400px" }}>
-              <ResourceYAMLEditor initialResource={registry} />
-            </div>
+            <ResourceYAMLEditor initialResource={registry} />
           </Tab>
 
           <Tab

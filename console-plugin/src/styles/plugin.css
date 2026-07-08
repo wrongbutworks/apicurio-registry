@@ -18,3 +18,13 @@
   width: 100%;
   border: none;
 }
+
+.apicurio-registry-yaml-tab {
+  height: calc(100vh - 250px);
+  min-height: 400px;
+}
+
+.apicurio-registry-yaml-tab > .pf-v6-c-code-editor,
+.apicurio-registry-yaml-tab .co-code-editor {
+  height: 100% !important;
+}
