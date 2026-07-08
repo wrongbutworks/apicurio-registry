@@ -225,7 +225,9 @@ const RegistryDetailPage: React.FC = () => {
             eventKey="yaml"
             title={<TabTitleText>{t("YAML")}</TabTitleText>}
           >
-            <ResourceYAMLEditor initialResource={registry} />
+            <div style={{ height: "calc(100vh - 250px)", minHeight: "400px" }}>
+              <ResourceYAMLEditor initialResource={registry} />
+            </div>
           </Tab>
 
           <Tab
