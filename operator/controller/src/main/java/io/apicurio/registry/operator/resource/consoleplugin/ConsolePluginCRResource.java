@@ -26,6 +26,12 @@ public class ConsolePluginCRResource extends CRUDKubernetesDependentResource<Con
     }
 
     @Override
+    protected void addReferenceHandlingMetadata(ConsolePlugin desired, ApicurioRegistry3 primary) {
+        // ConsolePlugin is cluster-scoped, skip owner reference from namespaced primary
+        addSecondaryToPrimaryMapperAnnotations(desired, primary);
+    }
+
+    @Override
     protected ConsolePlugin desired(ApicurioRegistry3 primary, Context<ApicurioRegistry3> context) {
         var pluginName = primary.getMetadata().getName() + "-" + COMPONENT_CONSOLE_PLUGIN;
         var serviceName = primary.getMetadata().getName() + "-" + COMPONENT_CONSOLE_PLUGIN + "-" + RESOURCE_TYPE_SERVICE;

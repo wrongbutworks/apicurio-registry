@@ -39,6 +39,7 @@ public class ConsolePluginDeploymentResource extends CRUDKubernetesDependentReso
         var appServiceName = primary.getMetadata().getName() + "-" + COMPONENT_APP + "-" + RESOURCE_TYPE_SERVICE;
         var registryApiUrl = "http://" + appServiceName + "." + primary.getMetadata().getNamespace() + ".svc:8080";
         addEnvVar(envVars, new EnvVarBuilder().withName("REGISTRY_API_URL").withValue(registryApiUrl).build());
+        addEnvVar(envVars, new EnvVarBuilder().withName("QUARKUS_PROFILE").withValue("prod").build());
 
         var container = getContainerFromDeployment(d, CONSOLE_PLUGIN_CONTAINER_NAME);
         if (container.getEnv() == null) {

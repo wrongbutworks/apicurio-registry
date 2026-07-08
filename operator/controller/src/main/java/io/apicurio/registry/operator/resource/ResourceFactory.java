@@ -195,10 +195,10 @@ public class ResourceFactory {
                 CONSOLE_PLUGIN_CONTAINER_NAME,
                 Configuration.getConsolePluginImage(),
                 List.of(new ContainerPortBuilder().withName("https").withProtocol("TCP").withContainerPort(9443).build()),
-                new ProbeBuilder().withHttpGet(new HTTPGetActionBuilder().withPath("/").withPort(new IntOrString(9443)).withScheme("HTTPS").build()).build(),
-                new ProbeBuilder().withHttpGet(new HTTPGetActionBuilder().withPath("/").withPort(new IntOrString(9443)).withScheme("HTTPS").build()).build(),
-                Map.of("cpu", new Quantity("10m"), "memory", new Quantity("50Mi")),
-                Map.of("cpu", new Quantity("100m"), "memory", new Quantity("128Mi"))
+                new ProbeBuilder().withHttpGet(new HTTPGetActionBuilder().withPath("/q/health/ready").withPort(new IntOrString(9443)).withScheme("HTTPS").build()).withInitialDelaySeconds(45).withPeriodSeconds(10).withTimeoutSeconds(5).build(),
+                new ProbeBuilder().withHttpGet(new HTTPGetActionBuilder().withPath("/q/health/live").withPort(new IntOrString(9443)).withScheme("HTTPS").build()).withInitialDelaySeconds(45).withPeriodSeconds(10).withTimeoutSeconds(5).build(),
+                Map.of("cpu", new Quantity("100m"), "memory", new Quantity("256Mi")),
+                Map.of("cpu", new Quantity("500m"), "memory", new Quantity("512Mi"))
         );
         var pts = r.getSpec().getTemplate();
         if (pts.getSpec() == null) {

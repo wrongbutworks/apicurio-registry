@@ -7,7 +7,7 @@ WORKDIR /opt/app-root/src
 COPY package.json package-lock.json* yarn.lock* ./
 RUN npm install --legacy-peer-deps
 
-COPY console-extensions.json tsconfig.json webpack.config.ts .swcrc ./
+COPY console-extensions.json tsconfig.json webpack.config.js webpack.config.ts* .swcrc ./
 COPY src/ src/
 COPY locales/ locales/
 RUN npm run build
