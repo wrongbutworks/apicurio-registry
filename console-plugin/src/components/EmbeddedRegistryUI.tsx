@@ -2,8 +2,6 @@ import {
   Bullseye,
   EmptyState,
   EmptyStateBody,
-  EmptyStateHeader,
-  EmptyStateIcon,
   Spinner,
 } from "@patternfly/react-core";
 import { ExclamationTriangleIcon } from "@patternfly/react-icons";
@@ -27,11 +25,11 @@ const EmbeddedRegistryUI: React.FC<EmbeddedRegistryUIProps> = ({
 
   if (!uiUrl) {
     return (
-      <EmptyState>
-        <EmptyStateHeader
-          titleText={t("Registry UI Unavailable")}
-          icon={<EmptyStateIcon icon={ExclamationTriangleIcon} />}
-        />
+      <EmptyState
+        headingLevel="h4"
+        icon={ExclamationTriangleIcon}
+        titleText={t("Registry UI Unavailable")}
+      >
         <EmptyStateBody>
           {t(
             "Unable to determine the Registry UI URL for this instance."

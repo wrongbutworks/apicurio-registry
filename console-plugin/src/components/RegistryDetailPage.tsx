@@ -13,7 +13,7 @@ import {
   Title,
 } from "@patternfly/react-core";
 import {
-  TableComposable,
+  Table,
   Tbody,
   Td,
   Th,
@@ -25,7 +25,7 @@ import {
   useK8sWatchResource,
 } from "@openshift-console/dynamic-plugin-sdk";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import {
   ApicurioRegistry3,
@@ -45,7 +45,7 @@ const ConditionsTable: React.FC<{ conditions: Condition[] }> = ({
   const { t } = useTranslation("plugin__apicurio-registry");
 
   return (
-    <TableComposable variant="compact">
+    <Table variant="compact">
       <Thead>
         <Tr>
           <Th>{t("Type")}</Th>
@@ -84,14 +84,13 @@ const ConditionsTable: React.FC<{ conditions: Condition[] }> = ({
           </Tr>
         ))}
       </Tbody>
-    </TableComposable>
+    </Table>
   );
 };
 
 const RegistryDetailPage: React.FC = () => {
   const { t } = useTranslation("plugin__apicurio-registry");
-  const { name, ns: namespace } =
-    useParams<{ name: string; ns: string }>();
+  const { name, ns: namespace } = useParams();
   const [activeTab, setActiveTab] = useState<string | number>("overview");
 
   const [registry, loaded] = useK8sWatchResource<ApicurioRegistry3>({

@@ -14,7 +14,7 @@ import {
   VirtualizedTable,
 } from "@openshift-console/dynamic-plugin-sdk";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import {
   ApicurioRegistry3,
   ApicurioRegistry3Model,
