@@ -25,5 +25,7 @@
   "Type": "Type",
   "Reason": "Reason",
   "Message": "Message",
-  "Last Transition": "Last Transition"
+  "Last Transition": "Last Transition",
+  "Open in new tab": "Open in new tab",
+  "Registry UI Unavailable": "Registry UI Unavailable"
 }

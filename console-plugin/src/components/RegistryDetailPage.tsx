@@ -112,22 +112,16 @@ const RegistryDetailPage: React.FC = () => {
 
   return (
     <>
-      <PageSection variant="light">
-        <Grid hasGutter>
-          <GridItem>
-            <Title headingLevel="h1">
-              {registry.metadata.name}{" "}
-              <RegistryStatusBadge condition={readyCondition} />
-            </Title>
-          </GridItem>
-        </Grid>
-      </PageSection>
-
       <PageSection variant="light" padding={{ default: "noPadding" }}>
+        <div style={{ padding: "1rem 1.5rem 0" }}>
+          <Title headingLevel="h1">
+            {registry.metadata.name}{" "}
+            <RegistryStatusBadge condition={readyCondition} />
+          </Title>
+        </div>
         <Tabs
           activeKey={activeTab}
           onSelect={(_event, tabIndex) => setActiveTab(tabIndex)}
-          className="apicurio-registry-detail-tabs"
         >
           <Tab
             eventKey="overview"

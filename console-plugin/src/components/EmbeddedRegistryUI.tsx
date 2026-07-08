@@ -1,14 +1,15 @@
 import {
+  Button,
   Bullseye,
   EmptyState,
   EmptyStateBody,
   Spinner,
 } from "@patternfly/react-core";
-import { ExclamationTriangleIcon } from "@patternfly/react-icons";
+import { ExclamationTriangleIcon, ExternalLinkAltIcon } from "@patternfly/react-icons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ApicurioRegistry3 } from "../utils/k8s";
-import { getEmbeddedUIUrl } from "../utils/registry-url";
+import { getEmbeddedUIUrl, getRegistryUIUrl } from "../utils/registry-url";
 import "../styles/plugin.css";
 
 interface EmbeddedRegistryUIProps {
@@ -22,6 +23,7 @@ const EmbeddedRegistryUI: React.FC<EmbeddedRegistryUIProps> = ({
   const [loading, setLoading] = useState(true);
 
   const uiUrl = getEmbeddedUIUrl(registry);
+  const directUrl = getRegistryUIUrl(registry);
 
   if (!uiUrl) {
     return (
@@ -41,6 +43,19 @@ const EmbeddedRegistryUI: React.FC<EmbeddedRegistryUIProps> = ({
 
   return (
     <div className="apicurio-registry-embedded-ui">
+      <div className="apicurio-registry-embedded-ui__toolbar">
+        <Button
+          variant="link"
+          component="a"
+          href={directUrl!}
+          target="_blank"
+          rel="noopener noreferrer"
+          icon={<ExternalLinkAltIcon />}
+          iconPosition="end"
+        >
+          {t("Open in new tab")}
+        </Button>
+      </div>
       {loading && (
         <Bullseye>
           <Spinner size="xl" aria-label={t("Loading Registry UI...")} />

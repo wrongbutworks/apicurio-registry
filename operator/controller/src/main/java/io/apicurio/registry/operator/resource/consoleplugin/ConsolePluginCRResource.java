@@ -33,7 +33,7 @@ public class ConsolePluginCRResource extends CRUDKubernetesDependentResource<Con
 
     @Override
     protected ConsolePlugin desired(ApicurioRegistry3 primary, Context<ApicurioRegistry3> context) {
-        var pluginName = primary.getMetadata().getName() + "-" + COMPONENT_CONSOLE_PLUGIN;
+        var pluginName = "apicurio-registry";
         var serviceName = primary.getMetadata().getName() + "-" + COMPONENT_CONSOLE_PLUGIN + "-" + RESOURCE_TYPE_SERVICE;
         var namespace = primary.getMetadata().getNamespace();
 
