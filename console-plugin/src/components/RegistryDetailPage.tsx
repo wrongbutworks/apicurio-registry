@@ -25,7 +25,7 @@ import {
   useK8sWatchResource,
 } from "@openshift-console/dynamic-plugin-sdk";
 import { useState } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   ApicurioRegistry3,
