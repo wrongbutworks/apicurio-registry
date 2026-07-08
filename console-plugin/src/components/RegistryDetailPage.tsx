@@ -6,6 +6,7 @@ import {
   Grid,
   GridItem,
   Label,
+  LabelGroup,
   PageSection,
   Tab,
   Tabs,
@@ -21,6 +22,8 @@ import {
   Tr,
 } from "@patternfly/react-table";
 import {
+  ResourceEventStream,
+  ResourceYAMLEditor,
   Timestamp,
   useK8sWatchResource,
 } from "@openshift-console/dynamic-plugin-sdk";
@@ -88,6 +91,19 @@ const ConditionsTable: React.FC<{ conditions: Condition[] }> = ({
   );
 };
 
+const LabelsDisplay: React.FC<{ labels?: Record<string, string> }> = ({
+  labels,
+}) => {
+  if (!labels || Object.keys(labels).length === 0) return <span>-</span>;
+  return (
+    <LabelGroup>
+      {Object.entries(labels).map(([key, value]) => (
+        <Label key={key}>{`${key}=${value}`}</Label>
+      ))}
+    </LabelGroup>
+  );
+};
+
 const RegistryDetailPage: React.FC = () => {
   const { t } = useTranslation("plugin__apicurio-registry");
   const { name, ns: namespace } = useParams();
@@ -130,67 +146,86 @@ const RegistryDetailPage: React.FC = () => {
             <PageSection>
               <Grid hasGutter>
                 <GridItem span={6}>
-                  <Title headingLevel="h2">{t("Configuration")}</Title>
+                  <Title headingLevel="h2">{t("Details")}</Title>
                   <DescriptionList>
                     <DescriptionListGroup>
-                      <DescriptionListTerm>
-                        {t("Storage")}
-                      </DescriptionListTerm>
+                      <DescriptionListTerm>{t("Name")}</DescriptionListTerm>
                       <DescriptionListDescription>
-                        {getStorageType(registry)}
+                        {registry.metadata.name}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                     <DescriptionListGroup>
-                      <DescriptionListTerm>
-                        {t("Authentication")}
-                      </DescriptionListTerm>
+                      <DescriptionListTerm>{t("Namespace")}</DescriptionListTerm>
                       <DescriptionListDescription>
-                        {isAuthEnabled(registry)
-                          ? t("Enabled")
-                          : t("Disabled")}
+                        {registry.metadata.namespace}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                     <DescriptionListGroup>
-                      <DescriptionListTerm>
-                        {t("Replicas")}
-                      </DescriptionListTerm>
+                      <DescriptionListTerm>{t("Labels")}</DescriptionListTerm>
                       <DescriptionListDescription>
-                        {registry.spec?.app?.replicas ?? 1}
+                        <LabelsDisplay labels={registry.metadata.labels} />
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                     <DescriptionListGroup>
-                      <DescriptionListTerm>
-                        {t("Ingress Host")}
-                      </DescriptionListTerm>
+                      <DescriptionListTerm>{t("Created")}</DescriptionListTerm>
                       <DescriptionListDescription>
-                        {registry.spec?.app?.ingress?.host ?? "-"}
-                      </DescriptionListDescription>
-                    </DescriptionListGroup>
-                    <DescriptionListGroup>
-                      <DescriptionListTerm>
-                        {t("Age")}
-                      </DescriptionListTerm>
-                      <DescriptionListDescription>
-                        <Timestamp
-                          timestamp={registry.metadata.creationTimestamp}
-                        />
+                        <Timestamp timestamp={registry.metadata.creationTimestamp} />
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                   </DescriptionList>
                 </GridItem>
 
                 <GridItem span={6}>
-                  <Title headingLevel="h2">
-                    {t("Conditions")}
-                  </Title>
-                  {conditions.length > 0 ? (
-                    <ConditionsTable conditions={conditions} />
-                  ) : (
-                    <p>-</p>
-                  )}
+                  <Title headingLevel="h2">{t("Configuration")}</Title>
+                  <DescriptionList>
+                    <DescriptionListGroup>
+                      <DescriptionListTerm>{t("Storage")}</DescriptionListTerm>
+                      <DescriptionListDescription>
+                        {getStorageType(registry)}
+                      </DescriptionListDescription>
+                    </DescriptionListGroup>
+                    <DescriptionListGroup>
+                      <DescriptionListTerm>{t("Authentication")}</DescriptionListTerm>
+                      <DescriptionListDescription>
+                        {isAuthEnabled(registry) ? t("Enabled") : t("Disabled")}
+                      </DescriptionListDescription>
+                    </DescriptionListGroup>
+                    <DescriptionListGroup>
+                      <DescriptionListTerm>{t("Replicas")}</DescriptionListTerm>
+                      <DescriptionListDescription>
+                        {registry.spec?.app?.replicas ?? 1}
+                      </DescriptionListDescription>
+                    </DescriptionListGroup>
+                    <DescriptionListGroup>
+                      <DescriptionListTerm>{t("App Ingress")}</DescriptionListTerm>
+                      <DescriptionListDescription>
+                        {registry.spec?.app?.ingress?.host ?? "-"}
+                      </DescriptionListDescription>
+                    </DescriptionListGroup>
+                    <DescriptionListGroup>
+                      <DescriptionListTerm>{t("UI Ingress")}</DescriptionListTerm>
+                      <DescriptionListDescription>
+                        {registry.spec?.ui?.ingress?.host ?? "-"}
+                      </DescriptionListDescription>
+                    </DescriptionListGroup>
+                  </DescriptionList>
                 </GridItem>
               </Grid>
+
+              {conditions.length > 0 && (
+                <div style={{ marginTop: "1.5rem" }}>
+                  <Title headingLevel="h2">{t("Conditions")}</Title>
+                  <ConditionsTable conditions={conditions} />
+                </div>
+              )}
             </PageSection>
+          </Tab>
+
+          <Tab
+            eventKey="yaml"
+            title={<TabTitleText>{t("YAML")}</TabTitleText>}
+          >
+            <ResourceYAMLEditor initialResource={registry} />
           </Tab>
 
           <Tab
@@ -198,6 +233,15 @@ const RegistryDetailPage: React.FC = () => {
             title={<TabTitleText>{t("Registry UI")}</TabTitleText>}
           >
             <EmbeddedRegistryUI registry={registry} />
+          </Tab>
+
+          <Tab
+            eventKey="events"
+            title={<TabTitleText>{t("Events")}</TabTitleText>}
+          >
+            <PageSection>
+              <ResourceEventStream resource={registry} />
+            </PageSection>
           </Tab>
         </Tabs>
       </PageSection>

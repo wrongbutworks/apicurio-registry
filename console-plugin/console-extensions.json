@@ -14,12 +14,21 @@
     }
   },
   {
+    "type": "console.navigation/section",
+    "properties": {
+      "id": "apicurio",
+      "perspective": "admin",
+      "name": "%plugin__apicurio-registry~Apicurio%",
+      "insertAfter": "operators"
+    }
+  },
+  {
     "type": "console.navigation/resource-ns",
     "properties": {
       "id": "apicurio-registry",
       "perspective": "admin",
-      "section": "operators",
-      "name": "%plugin__apicurio-registry~Apicurio Registry%",
+      "section": "apicurio",
+      "name": "%plugin__apicurio-registry~Registry Instances%",
       "model": {
         "group": "registry.apicur.io",
         "version": "v1",

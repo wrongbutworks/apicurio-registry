@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && NODE_ENV=production webpack",
+    "build": "npm run clean && NODE_ENV=production webpack && cp -r locales dist/locales",
     "dev": "webpack serve",
     "start": "npm run dev",
     "start-console": "./start-console.sh",
