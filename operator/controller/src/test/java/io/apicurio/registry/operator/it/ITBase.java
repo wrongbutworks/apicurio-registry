@@ -387,6 +387,7 @@ public abstract class ITBase implements OperatorTestContext {
                 });
             });
         }
+        strimziInstalled = true;
     }
 
     static void createNamespace(KubernetesClient client, String namespace) {
